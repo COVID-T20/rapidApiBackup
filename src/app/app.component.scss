@@ -1,0 +1,12 @@
+header {
+    border-bottom: 1px solid rgba(0, 0, 0, .0975);
+    height       : 55px;
+    font-size    : 16px;
+    font-family  : sans-serif;
+
+    .user-name {
+        padding-right: 10px;
+        border-right : 1px solid #ffffff;
+        color        : #ffffff;
+    }
+}

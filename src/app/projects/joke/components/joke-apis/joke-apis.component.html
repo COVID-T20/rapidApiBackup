@@ -1,0 +1,235 @@
+<div class="container-fluid mt-4">
+    <h4 style="display:inline-block" class="mr-5">Joke APIs - <span [innerHTML]="apiTitle"></span></h4>
+    <a href="https://rapidapi.com/LemmoTresto/api/joke3" target="_blank">Rapid Api website link</a>
+    <hr />
+    <!--- For Random Joke --->
+    <div [ngSwitch]="jokeAction">
+        <div *ngSwitchCase="'randomJoke'">
+            <div class="row randomJoke">
+                <!-- Random Joke Section --->
+                <div class="col-md-6">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <button style="float: left" type="button" class="btn btn-sm btn-secondary" (click)="clearCache()">Clear cache</button>
+                            <b>Joke ID - </b><span [innerHTML]="randomJoke.randomJokeId"></span>
+                            <i style="float:right" class="fa fa-refresh" aria-hidden="true"
+                                (click)="tryJokeActions('get')"></i>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-title" [innerHTML]="randomJoke.randomJokeBody"></p>
+                            <div class="loading" *ngIf="loading"></div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <i class="fa fa-thumbs-up green" aria-hidden="true"></i>
+                                    <span [innerHTML]="randomJoke.randomJokeUpvote"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <i class="fa fa-thumbs-down red" aria-hidden="true"></i>
+                                    <span [innerHTML]="randomJoke.randomJokeDownvote"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--- Up vote / Down vote section -->
+                <div class="col-md-6 up-down-vote">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                                <div class="card-body"
+                                    (click)="tryJokeActions('post', randomJoke.randomJokeId, true, false)">
+                                    <p class="card-text text-center"><i style="font-size: 80px"
+                                            class="fa fa-thumbs-o-up" aria-hidden="true"></i></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                                <div class="card-body"
+                                    (click)="tryJokeActions('post', randomJoke.randomJokeId, false, true)">
+                                    <p class="card-text text-center"><i style="font-size: 80px"
+                                            class="fa fa-thumbs-o-down" aria-hidden="true"></i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input [(ngModel)]="jokeId" type="text" class="form-control" placeholder="Search by ID"
+                            aria-label="Search by ID" aria-describedby="basic-addon">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button"
+                                (click)="tryJokeActions('get', jokeId)">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Playing with concatMap/mergeMap/Promise-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 style="margin-right: 15px">Different ways of combining multiple HTTP requests</h5>
+                        </div>
+                        <div class="card-body" style="height:250px;overflow: auto">
+                            <div class="">
+                                <b style="margin-bottom: 15px;display: inline-block;margin-right:10px">1) call random
+                                    joke API -> send joke id &
+                                    call up vote API -> send same joke id & call
+                                    down vote API </b>
+                                <button type="button" class="btn btn-warning btn-sm mr-1"
+                                    (click)="concatMap()">concatMap</button>
+                                <button type="button" class="btn btn-secondary btn-sm mr-1"
+                                    (click)="promise()">promise</button>
+                                <button type="button" class="btn btn-dark btn-sm"
+                                    (click)="asyncAwait()">asyncAwait</button>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p><b>ID:</b> {{concatMapJokeApi.id}}</p>
+                                                <p><b>Up Vote:</b> {{concatMapJokeApi.upVote}}</p>
+                                                <p><b>Down Vote:</b> {{concatMapJokeApi.downVote}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p><b>ID:</b> {{concatMapUpVoteApi.id}}</p>
+                                                <p><b>Up Vote:</b> {{concatMapUpVoteApi.upVote}}</p>
+                                                <p><b>Down Vote:</b> {{concatMapUpVoteApi.downVote}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p><b>ID:</b> {{concatMapDownVoteApi.id}}</p>
+                                                <p><b>Up Vote:</b> {{concatMapDownVoteApi.upVote}}</p>
+                                                <p><b>Down Vote:</b> {{concatMapDownVoteApi.downVote}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card" [ngClass]="{'bg-success text-white' : concatMapCompleted}">
+                                            <div class="card-body">
+                                                Completed
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="">
+                                <b style="margin-bottom: 15px;display: inline-block;margin-right:10px">2) call random
+                                    joke API -> send joke id &
+                                    call Both up vote API &
+                                    down vote API asynchronously</b>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    (click)="forkJoin()">forkJoin</button>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p><b>ID:</b> {{forkJoinJokeApi.id}}</p>
+                                                <p><b>Up Vote:</b> {{forkJoinJokeApi.upVote}}</p>
+                                                <p><b>Down Vote:</b> {{forkJoinJokeApi.downVote}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p><b>ID:</b> {{forkJoinUpVoteApi.id}}</p>
+                                                <p><b>Up Vote:</b> {{forkJoinUpVoteApi.upVote}}</p>
+                                                <p><b>Down Vote:</b> {{forkJoinUpVoteApi.downVote}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p><b>ID:</b> {{forkJoinDownVoteApi.id}}</p>
+                                                <p><b>Up Vote:</b> {{forkJoinDownVoteApi.upVote}}</p>
+                                                <p><b>Down Vote:</b> {{forkJoinDownVoteApi.downVote}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card" [ngClass]="{'bg-success text-white' : forkJoinCompleted}">
+                                            <div class="card-body">
+                                                Completed
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="">
+                                <b style="margin-bottom: 15px;display: inline-block;margin-right:10px">3) call random
+                                    joke API -> send joke id &
+                                    call up vote API -> send same joke id & call
+                                    down vote API</b>
+                                <button type="button" class="btn btn-danger btn-sm"
+                                    (click)="mergeMap()">mergeMap</button>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p><b>ID:</b> {{mergeMapJokeApi.id}}</p>
+                                                <p><b>Up Vote:</b> {{mergeMapJokeApi.upVote}}</p>
+                                                <p><b>Down Vote:</b> {{mergeMapJokeApi.downVote}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p><b>ID:</b> {{mergeMapUpVoteApi.id}}</p>
+                                                <p><b>Up Vote:</b> {{mergeMapUpVoteApi.upVote}}</p>
+                                                <p><b>Down Vote:</b> {{mergeMapUpVoteApi.downVote}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p><b>ID:</b> {{mergeMapDownVoteApi.id}}</p>
+                                                <p><b>Up Vote:</b> {{mergeMapDownVoteApi.upVote}}</p>
+                                                <p><b>Down Vote:</b> {{mergeMapDownVoteApi.downVote}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card" [ngClass]="{'bg-success text-white' : mergeMapCompleted}">
+                                            <div class="card-body">
+                                                Completed
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- For Submit JOKE -->
+        <div *ngSwitchCase="'submitJoke'">
+            <div class="card text-white bg-warning mb-3" style="max-width:50%">
+                <div class="card-header">Submit a Joke</div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <textarea [(ngModel)]="jokeContent" class="form-control" aria-label="With textarea"></textarea>
+                    </h5>
+                    <button type="button" class="btn btn-outline-danger"
+                        (click)="submitJoke(jokeContent)">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchDefault>Default Option</div>
+    </div>
+</div>

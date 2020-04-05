@@ -1,0 +1,23 @@
+<div class="container-fluid mt-4">
+    <h3>Joke Component API List</h3>
+    <hr />
+    <div class="card-deck">
+        <div class="card border-info mb-3" style="max-width: 18rem;" [routerLink]="['/joke','randomJoke']">
+            <div class="card-header">Get A Random Joke</div>
+            <div class="card-body text-info">
+                <h5 class="card-title">Route Resolve test</h5>
+                <p class="card-text">
+                    On click of this tile, Resolve is fired & on success, routing is activated and user is navigated to a
+                    new page containing a random joke.
+                </p>
+            </div>
+        </div>
+        <div class="card border-dark mb-3" style="max-width: 18rem;" [routerLink]="['/joke','submitJoke']">
+            <div class="card-header">Submit a Joke</div>
+            <div class="card-body text-dark">
+                <h5 class="card-title">POST Api test</h5>
+                <p class="card-text">..........</p>
+            </div>
+        </div>
+    </div>
+</div>
