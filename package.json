@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot --host=dev.oldmonk.com --port 4500 --ssl=true ---live-reload=false --disableHostCheck=true",
-    "build": "ng build --base-href=/rapidapi/ --configuration=production",
+    "start": "ng serve --aot --port 4500 --ssl=true ---live-reload=false --disableHostCheck=true",
+    "build": "ng build --base-href==https://OLDMONK2020.github.io/RapidApiAngular8 --configuration=production",
     "aot": "node --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng build --base-href=/rapidapi/ --configuration=production",
     "test": "ng test",
     "lint": "ng lint",

@@ -27,6 +27,8 @@ import { forkJoin } from 'rxjs';
 */
 
 export class JokeApisComponent implements OnInit {
+    jokeId: string;
+    jokeContent: string;
     loading: boolean = false;
     apiTitle: string = '';
     jokeAction: string = '';
